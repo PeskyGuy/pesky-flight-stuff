@@ -89,17 +89,19 @@ namespace Pesky
         }
     }
 
+    [StaticConstructorOnStartup]
     [HarmonyPatch(typeof(Pawn), "DrawAt")]
     public static class Pawn_DrawAt_Patch
     {
         private static Material shadowMaterial;
 
+        static Pawn_DrawAt_Patch()
+        {
+            shadowMaterial = MaterialPool.MatFrom("Things/Skyfaller/SkyfallerShadowCircle", ShaderDatabase.Transparent);
+        }
+
         public static void Postfix(Pawn __instance, Vector3 drawLoc, bool flip)
         {
-            if (shadowMaterial == null)
-            {
-                shadowMaterial = MaterialPool.MatFrom("Things/Skyfaller/SkyfallerShadowCircle", ShaderDatabase.Transparent);
-            }
 
             if (__instance.Spawned && Current.ProgramState == ProgramState.Playing)
             {
