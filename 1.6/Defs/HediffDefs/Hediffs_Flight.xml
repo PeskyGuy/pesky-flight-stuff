@@ -26,8 +26,8 @@
     <comps>
       <li Class="Pesky.HediffCompProperties_FlightImplant">
         <maxFuel>100</maxFuel>
-        <fuelDrainPerTick>0.04</fuelDrainPerTick>
-        <fuelRechargePerTick>0.03</fuelRechargePerTick>
+        <fuelDrainPerTick>0.002</fuelDrainPerTick>
+        <fuelRechargePerTick>0.01</fuelRechargePerTick>
       </li>
     </comps>
     <modExtensions>

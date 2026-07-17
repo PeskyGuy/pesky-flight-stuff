@@ -13,6 +13,19 @@ namespace Pesky
         {
             var harmony = new Harmony("Pesky.FlightStuff");
             harmony.PatchAll();
+
+            if (ModLister.GetActiveModWithIdentifier("com.yayo.yayoAni.continued") != null)
+            {
+                var yayoType = AccessTools.TypeByName("YayoAnimation.AnimationCore");
+                if (yayoType != null)
+                {
+                    var aniMovement = AccessTools.Method(yayoType, "AniMovement");
+                    if (aniMovement != null)
+                    {
+                        harmony.Patch(aniMovement, prefix: new HarmonyMethod(typeof(YayoAnimation_AniMovement_Patch), "Prefix"));
+                    }
+                }
+            }
         }
     }
 
@@ -102,7 +115,6 @@ namespace Pesky
 
         public static void Postfix(Pawn __instance, Vector3 drawLoc, bool flip)
         {
-
             if (__instance.Spawned && Current.ProgramState == ProgramState.Playing)
             {
                 var state = FlightUtility.GetState(__instance);
@@ -132,6 +144,23 @@ namespace Pesky
                     Graphics.DrawMesh(MeshPool.plane10, matrix, shadowMaterial, 0);
                 }
             }
+        }
+    }
+
+    public static class YayoAnimation_AniMovement_Patch
+    {
+        public static bool Prefix(Pawn pawn, ref bool __result)
+        {
+            if (pawn != null)
+            {
+                var state = FlightUtility.GetState(pawn);
+                if (state != null && state.currentHeight > 0f)
+                {
+                    __result = false;
+                    return false; 
+                }
+            }
+            return true;
         }
     }
 }

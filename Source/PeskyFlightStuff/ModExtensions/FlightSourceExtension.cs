@@ -21,5 +21,6 @@ namespace Pesky
         public float bobAmplitude = 0.08f;
         
         public string iconPath = "UI/Icons/FlightToggle";
+        public float hungerDrainPer60Ticks = 0.005f;
     }
 }

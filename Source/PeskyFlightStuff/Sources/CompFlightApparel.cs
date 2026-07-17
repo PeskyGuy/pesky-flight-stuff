@@ -132,7 +132,7 @@ namespace Pesky
             {
                 defaultLabel = "Toggle Flight",
                 defaultDesc = "Toggle flight. Bypasses terrain movement penalties but drains fuel.",
-                icon = ContentFinder<Texture2D>.Get(ext?.iconPath ?? "UI/Icons/FlightToggle", false) ?? BaseContent.BadTex,
+                icon = parent.def.uiIcon ?? ContentFinder<Texture2D>.Get(ext?.iconPath ?? "UI/Icons/FlightToggle", false) ?? BaseContent.BadTex,
                 isActive = () => flightActive,
                 toggleAction = delegate
                 {

@@ -54,11 +54,18 @@ namespace Pesky
                 return frames[state.currentFrame % frames.Length];
             }
             
-            if (myType == FlightSourceType.Apparel || myType == FlightSourceType.Implant)
+            if (myType == FlightSourceType.Apparel)
             {
-                // Apparel and implants are drawn by normal apparel/hediff rendering when idle. We don't want to draw idle frames here
-                // because it would double-draw. Oh wait, this node IS the apparel renderer. Let me check the original behavior.
+                // Apparel is drawn by normal apparel rendering when idle. We don't want to draw idle frames here.
                 return null;
+            }
+
+            if (myType == FlightSourceType.Implant)
+            {
+                // Implants must draw their own idle graphic unless disabled or suppressed.
+                if (mySource != null && registry.IsSuppressed(mySource)) return null;
+                if (ext != null && !ext.showIdleGraphic) return null;
+                return GetBaseGraphic(pawn);
             }
 
             // Idle frame for biological wings
