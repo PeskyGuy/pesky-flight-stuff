@@ -28,6 +28,7 @@ namespace Pesky
         public bool IsActive { get => flightActive; set => flightActive = value; }
         public bool CanFly => fuel > 0;
         public string SourceId => "Implant_" + parent.GetUniqueLoadID();
+        public Def SourceDef => Def;
 
         public override void CompExposeData()
         {
@@ -63,50 +64,15 @@ namespace Pesky
                     if (flightActive) ToggleFlight(wearer, false);
                     return;
                 }
-                if (wearer.IsHashIntervalTick(60) && wearer.Faction != Faction.OfPlayer && !wearer.Downed && wearer.Awake() && !wearer.InBed())
-                {
-                    bool shouldFly = wearer.mindState?.enemyTarget != null || (wearer.mindState?.duty != null && wearer.mindState.duty.def.alwaysShowWeapon);
-                    if (shouldFly && !flightActive) ToggleFlight(wearer, true);
-                    else if (!shouldFly && flightActive) ToggleFlight(wearer, false);
-                }
-
-                if (flightActive && (wearer.Downed || wearer.InBed() || !wearer.Awake()))
-                {
-                    ToggleFlight(wearer, false);
-                }
-
-                if (flightActive)
-                {
-                    fuel -= Props.fuelDrainPerTick;
-                    if (fuel <= 0)
-                    {
-                        fuel = 0;
-                        ToggleFlight(wearer, false);
-                    }
-                }
-                else
-                {
-                    if (fuel < Props.maxFuel)
-                    {
-                        fuel += Props.fuelRechargePerTick;
-                        if (fuel > Props.maxFuel) fuel = Props.maxFuel;
-                    }
-                }
+                
+                FlightBehaviorUtility.TickAIController(wearer, flightActive, state => ToggleFlight(wearer, state));
+                FlightBehaviorUtility.TickFuel(wearer, ref fuel, Props.maxFuel, Props.fuelDrainPerTick, Props.fuelRechargePerTick, flightActive, state => ToggleFlight(wearer, state));
             }
         }
 
         private void ToggleFlight(Pawn wearer, bool state)
         {
-            if (state && (wearer.Downed || !wearer.Awake() || wearer.InBed()))
-            {
-                if (wearer.Faction == Faction.OfPlayer)
-                {
-                    Messages.Message("Cannot fly while downed or sleeping.", wearer, MessageTypeDefOf.RejectInput, false);
-                }
-                return;
-            }
-            flightActive = state;
-            FlightUtility.CheckFlightState(wearer);
+            FlightBehaviorUtility.ToggleFlight(wearer, state, ref flightActive);
         }
 
         public override IEnumerable<Gizmo> CompGetGizmos()
@@ -116,11 +82,12 @@ namespace Pesky
 
             if (FlightUtility.GetRegistry(wearer).IsSuppressed(this)) yield break;
 
+            var ext = Def.GetModExtension<FlightSourceExtension>();
             Command_Toggle toggle = new Command_Toggle
             {
                 defaultLabel = "Toggle Flight",
                 defaultDesc = "Toggle flight. Bypasses terrain movement penalties but drains fuel.",
-                icon = ContentFinder<Texture2D>.Get("Things/Pawn/Humanlike/BodyAttachments/WingsFeathered/WingsFeathered_south", false) ?? BaseContent.BadTex,
+                icon = ContentFinder<Texture2D>.Get(ext?.iconPath ?? "UI/Icons/FlightToggle", false) ?? BaseContent.BadTex,
                 isActive = () => flightActive,
                 toggleAction = delegate
                 {

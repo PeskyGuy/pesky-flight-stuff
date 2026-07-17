@@ -14,6 +14,7 @@ namespace Pesky
         public bool IsActive { get => flightActive; set => flightActive = value; }
         public bool CanFly => true; // Genes don't run out of fuel
         public string SourceId => "Gene_" + def.defName;
+        public Def SourceDef => def;
 
         public override void PostAdd()
         {
@@ -48,10 +49,11 @@ namespace Pesky
 
             if (pawn != null && pawn.Faction == Faction.OfPlayer)
             {
+                var ext = def.GetModExtension<FlightSourceExtension>();
                 Command_Toggle toggle = new Command_Toggle();
                 toggle.defaultLabel = "Toggle Flight";
                 toggle.defaultDesc = "Toggle flight. Bypasses terrain movement penalties and traps.";
-                toggle.icon = ContentFinder<Texture2D>.Get("UI/Icons/FlightToggle", false) ?? BaseContent.BadTex;
+                toggle.icon = ContentFinder<Texture2D>.Get(ext?.iconPath ?? "UI/Icons/FlightToggle", false) ?? BaseContent.BadTex;
                 toggle.isActive = () => flightActive;
                 toggle.toggleAction = delegate
                 {
@@ -73,13 +75,7 @@ namespace Pesky
 
         private void ToggleFlight(bool enable)
         {
-            if (enable && (pawn.Downed || !pawn.Awake() || pawn.InBed()))
-            {
-                Messages.Message("Cannot fly while downed or sleeping.", pawn, MessageTypeDefOf.RejectInput, false);
-                return;
-            }
-            flightActive = enable;
-            FlightUtility.CheckFlightState(pawn);
+            FlightBehaviorUtility.ToggleFlight(pawn, enable, ref flightActive);
         }
 
         public override void Tick()
@@ -95,20 +91,7 @@ namespace Pesky
                 return;
             }
 
-            if (pawn.IsHashIntervalTick(60) && pawn.Faction != Faction.OfPlayer && !pawn.Downed && pawn.Awake() && !pawn.InBed())
-            {
-                bool shouldFly = pawn.mindState?.enemyTarget != null || (pawn.mindState?.duty != null && pawn.mindState.duty.def.alwaysShowWeapon);
-                if (shouldFly && !flightActive) ToggleFlight(true);
-                else if (!shouldFly && flightActive) ToggleFlight(false);
-            }
-
-            if (flightActive)
-            {
-                if (pawn.Downed || pawn.InBed() || !pawn.Awake())
-                {
-                    ToggleFlight(false);
-                }
-            }
+            FlightBehaviorUtility.TickAIController(pawn, flightActive, state => ToggleFlight(state));
         }
     }
 }

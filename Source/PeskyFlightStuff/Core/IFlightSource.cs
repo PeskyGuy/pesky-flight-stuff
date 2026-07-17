@@ -18,5 +18,6 @@ namespace Pesky
         bool IsActive { get; set; }
         bool CanFly { get; }
         string SourceId { get; }
+        Def SourceDef { get; }
     }
 }

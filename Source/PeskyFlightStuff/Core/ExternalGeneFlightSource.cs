@@ -14,12 +14,17 @@ namespace Pesky
             this.gene = gene;
             this.ext = ext;
             flightEnabledField = gene.GetType().GetField("flightEnabled", BindingFlags.Public | BindingFlags.Instance);
+            if (flightEnabledField == null)
+            {
+                Log.WarningOnce($"[Pesky] Gene {gene.def.defName} has FlightSourceExtension but no public 'flightEnabled' field — flight toggle will not work for this gene.", gene.def.GetHashCode());
+            }
         }
 
         public int Priority => ext.priority;
         public FlightSourceType SourceType => ext.sourceType;
         public bool CanFly => true;
         public string SourceId => "ExternalGene_" + gene.def.defName;
+        public Def SourceDef => gene.def;
 
         public bool IsActive
         {

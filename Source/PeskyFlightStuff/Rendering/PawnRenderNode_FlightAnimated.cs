@@ -25,10 +25,13 @@ namespace Pesky
 
             var registry = FlightUtility.GetRegistry(pawn);
 
-            // Is my graphic an apparel/implant graphic or a biological wing graphic?
-            FlightSourceType myType = FlightSourceType.Gene;
-            if (this.props.texPath.Contains("ThrusterBoots")) myType = FlightSourceType.Apparel;
-            else if (this.props.texPath.Contains("BionicWings") || this.props.texPath.Contains("BionicHoverJets")) myType = FlightSourceType.Implant;
+            var ext = GetMyExtension(pawn);
+            FlightSourceType myType = ext?.sourceType ?? FlightSourceType.Gene;
+            
+            if (ext == null)
+            {
+                Log.WarningOnce($"[Pesky] PawnRenderNode_FlightAnimated could not find FlightSourceExtension for texPath {this.props.texPath}. Defaulting to Gene.", this.props.GetHashCode());
+            }
 
             // If I am biological wings, should I hide?
             if (myType == FlightSourceType.Gene && registry.ShouldHideBiologicalWings())
@@ -60,6 +63,14 @@ namespace Pesky
 
             // Idle frame for biological wings
             return GetBaseGraphic(pawn);
+        }
+
+        private FlightSourceExtension GetMyExtension(Pawn pawn)
+        {
+            if (this.apparel != null) return this.apparel.def.GetModExtension<FlightSourceExtension>();
+            if (this.gene != null) return this.gene.def.GetModExtension<FlightSourceExtension>();
+            if (this.hediff != null) return this.hediff.def.GetModExtension<FlightSourceExtension>();
+            return null;
         }
 
         private Graphic GetBaseGraphic(Pawn pawn)

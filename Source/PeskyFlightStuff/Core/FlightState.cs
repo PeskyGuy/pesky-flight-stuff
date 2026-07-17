@@ -18,12 +18,21 @@ namespace Pesky
 
         public void Tick(Pawn pawn)
         {
+            var registry = FlightUtility.GetRegistry(pawn);
+            var activeSource = registry.GetActiveSource();
+            FlightSourceExtension ext = activeSource?.SourceDef?.GetModExtension<FlightSourceExtension>();
 
-            float targetHeight = flightEnabled ? 1.3f : 0f;
+            float cruiseHeight = ext?.cruiseHeight ?? 1.3f;
+            float riseFallSpeed = ext?.riseFallSpeed ?? 0.05f;
+            float tiltAngle = ext?.tiltAngle ?? 15f;
+            int frameTicksNormal = ext?.frameTicksNormal ?? 10;
+            int frameTicksTransition = ext?.frameTicksTransition ?? 6;
+
+            float targetHeight = flightEnabled ? cruiseHeight : 0f;
             float previousHeight = currentHeight;
-            currentHeight = Mathf.MoveTowards(currentHeight, targetHeight, 0.05f);
+            currentHeight = Mathf.MoveTowards(currentHeight, targetHeight, riseFallSpeed);
 
-            bool isTransitioning = (currentHeight > 0f && currentHeight < 1.3f);
+            bool isTransitioning = (currentHeight > 0f && currentHeight < cruiseHeight);
             
             if (flightEnabled || currentHeight > 0f)
             {
@@ -31,13 +40,13 @@ namespace Pesky
                 if (flightEnabled && pawn.pather != null && pawn.pather.MovingNow)
                 {
                     if (pawn.Rotation == Rot4.East)
-                        targetTilt = 15f; 
+                        targetTilt = tiltAngle; 
                     else if (pawn.Rotation == Rot4.West)
-                        targetTilt = -15f;
+                        targetTilt = -tiltAngle;
                 }
                 currentTilt = Mathf.MoveTowardsAngle(currentTilt, targetTilt, 0.5f);
 
-                int ticksPerFrame = isTransitioning ? 6 : 10;
+                int ticksPerFrame = isTransitioning ? frameTicksTransition : frameTicksNormal;
                 if (pawn.IsHashIntervalTick(ticksPerFrame))
                 {
                     currentFrame = (currentFrame + 1) % 4;

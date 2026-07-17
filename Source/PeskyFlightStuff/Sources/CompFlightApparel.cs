@@ -35,6 +35,7 @@ namespace Pesky
                 return reloadable != null ? reloadable.RemainingCharges > 0 : fuel > 0;
             }
         }
+        public Def SourceDef => parent.def;
 
         public override void PostExposeData()
         {
@@ -82,23 +83,14 @@ namespace Pesky
                     if (flightActive) ToggleFlight(wearer, false);
                     return;
                 }
-                if (wearer.IsHashIntervalTick(60) && wearer.Faction != Faction.OfPlayer && !wearer.Downed && wearer.Awake() && !wearer.InBed())
-                {
-                    bool shouldFly = wearer.mindState?.enemyTarget != null || (wearer.mindState?.duty != null && wearer.mindState.duty.def.alwaysShowWeapon);
-                    if (shouldFly && !flightActive) ToggleFlight(wearer, true);
-                    else if (!shouldFly && flightActive) ToggleFlight(wearer, false);
-                }
-
-                if (flightActive && (wearer.Downed || wearer.InBed() || !wearer.Awake()))
-                {
-                    ToggleFlight(wearer, false);
-                }
+                
+                FlightBehaviorUtility.TickAIController(wearer, flightActive, state => ToggleFlight(wearer, state));
 
                 var reloadable = parent.GetComp<CompApparelReloadable>();
 
-                if (flightActive)
+                if (reloadable != null)
                 {
-                    if (reloadable != null)
+                    if (flightActive)
                     {
                         tickCounter += Props.fuelDrainPerTick;
                         while (tickCounter >= 1f)
@@ -115,42 +107,17 @@ namespace Pesky
                             }
                         }
                     }
-                    else
-                    {
-                        fuel -= Props.fuelDrainPerTick;
-                        if (fuel <= 0)
-                        {
-                            fuel = 0;
-                            ToggleFlight(wearer, false);
-                        }
-                    }
                 }
                 else
                 {
-                    if (reloadable == null)
-                    {
-                        if (fuel < Props.maxFuel)
-                        {
-                            fuel += Props.fuelRechargePerTick;
-                            if (fuel > Props.maxFuel) fuel = Props.maxFuel;
-                        }
-                    }
+                    FlightBehaviorUtility.TickFuel(wearer, ref fuel, Props.maxFuel, Props.fuelDrainPerTick, Props.fuelRechargePerTick, flightActive, state => ToggleFlight(wearer, state));
                 }
             }
         }
 
         private void ToggleFlight(Pawn wearer, bool state)
         {
-            if (state && (wearer.Downed || !wearer.Awake() || wearer.InBed()))
-            {
-                if (wearer.Faction == Faction.OfPlayer)
-                {
-                    Messages.Message("Cannot fly while downed or sleeping.", wearer, MessageTypeDefOf.RejectInput, false);
-                }
-                return;
-            }
-            flightActive = state;
-            FlightUtility.CheckFlightState(wearer);
+            FlightBehaviorUtility.ToggleFlight(wearer, state, ref flightActive);
         }
 
         public override IEnumerable<Gizmo> CompGetWornGizmosExtra()
@@ -160,11 +127,12 @@ namespace Pesky
             
             if (FlightUtility.GetRegistry(wearer).IsSuppressed(this)) yield break;
 
+            var ext = parent.def.GetModExtension<FlightSourceExtension>();
             Command_Toggle toggle = new Command_Toggle
             {
                 defaultLabel = "Toggle Flight",
                 defaultDesc = "Toggle flight. Bypasses terrain movement penalties but drains fuel.",
-                icon = ContentFinder<Texture2D>.Get("Things/Pawn/Humanlike/BodyAttachments/WingsFeathered/WingsFeathered_south", false) ?? BaseContent.BadTex,
+                icon = ContentFinder<Texture2D>.Get(ext?.iconPath ?? "UI/Icons/FlightToggle", false) ?? BaseContent.BadTex,
                 isActive = () => flightActive,
                 toggleAction = delegate
                 {

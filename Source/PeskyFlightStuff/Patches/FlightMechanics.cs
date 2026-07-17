@@ -39,10 +39,14 @@ namespace Pesky
                 var state = FlightUtility.GetState(__instance);
                 if (state != null && state.currentHeight > 0f)
                 {
-                    float bobAmplitude = 0.08f;
+                    var activeSource = FlightUtility.GetRegistry(__instance).GetActiveSource();
+                    FlightSourceExtension ext = activeSource?.SourceDef?.GetModExtension<FlightSourceExtension>();
+                    float bobAmplitude = ext?.bobAmplitude ?? 0.08f;
+                    float cruiseHeight = ext?.cruiseHeight ?? 1.3f;
+
                     float bobSpeed = 0.05f; 
                     float timeOffset = (__instance.thingIDNumber % 1000) * 10f;
-                    float bobFactor = state.currentHeight / 1.3f;
+                    float bobFactor = state.currentHeight / cruiseHeight;
                     float floatOffset = Mathf.Sin(((float)Find.TickManager.TicksGame + timeOffset) * bobSpeed) * bobAmplitude * bobFactor;
                     
                     __result.z += (state.currentHeight + floatOffset);
@@ -102,10 +106,14 @@ namespace Pesky
                 var state = FlightUtility.GetState(__instance);
                 if (state != null && state.currentHeight > 0f)
                 {
-                    float bobAmplitude = 0.08f;
+                    var activeSource = FlightUtility.GetRegistry(__instance).GetActiveSource();
+                    FlightSourceExtension ext = activeSource?.SourceDef?.GetModExtension<FlightSourceExtension>();
+                    float bobAmplitude = ext?.bobAmplitude ?? 0.08f;
+                    float cruiseHeight = ext?.cruiseHeight ?? 1.3f;
+
                     float bobSpeed = 0.05f; 
                     float timeOffset = (__instance.thingIDNumber % 1000) * 10f;
-                    float bobFactor = state.currentHeight / 1.3f;
+                    float bobFactor = state.currentHeight / cruiseHeight;
                     float floatOffset = Mathf.Sin(((float)Find.TickManager.TicksGame + timeOffset) * bobSpeed) * bobAmplitude * bobFactor;
                     
                     float totalOffset = state.currentHeight + floatOffset;
