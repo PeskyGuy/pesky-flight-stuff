@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PeskyFlightStuff")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b96488a40f50548195b229dce97c3ddee03df546")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dd5529b4eae8bb504ed5f51775e7f19a1fc11449")]
 [assembly: System.Reflection.AssemblyProductAttribute("PeskyFlightStuff")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PeskyFlightStuff")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
