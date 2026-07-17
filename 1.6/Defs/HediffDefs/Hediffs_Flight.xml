@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <!-- Dummy Hediff to indicate active flight state for pathing and rendering -->
+  <HediffDef>
+    <defName>Pesky_FlightActive</defName>
+    <label>flight active</label>
+    <description>This pawn is flying and ignoring terrain movement penalties.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <isBad>false</isBad>
+    <stages>
+      <li>
+        <statOffsets>
+          <MoveSpeed>2.0</MoveSpeed>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="ImplantHediffBase">
+    <defName>Pesky_BionicWings</defName>
+    <label>bionic wings</label>
+    <labelNoun>bionic wings</labelNoun>
+    <description>Retractable bionic wings wired into the spine. Grants sustained flight.</description>
+    <descriptionHyperlinks><ThingDef>Pesky_BionicWings</ThingDef></descriptionHyperlinks>
+    <spawnThingOnRemoved>Pesky_BionicWings</spawnThingOnRemoved>
+    <comps>
+      <li Class="Pesky.HediffCompProperties_FlightImplant">
+        <maxFuel>100</maxFuel>
+        <fuelDrainPerTick>0.04</fuelDrainPerTick>
+        <fuelRechargePerTick>0.03</fuelRechargePerTick>
+      </li>
+    </comps>
+    <modExtensions>
+      <li Class="Pesky.FlightSourceExtension">
+        <priority>300</priority>
+        <sourceType>Implant</sourceType>
+      </li>
+    </modExtensions>
+    <stages>
+      <li>
+        <partEfficiencyOffset>0.10</partEfficiencyOffset>
+      </li>
+    </stages>
+    <renderNodeProperties>
+      <li>
+        <workerClass>Pesky.PawnRenderNodeWorker_FlightAnimated</workerClass>
+        <nodeClass>Pesky.PawnRenderNode_FlightAnimated</nodeClass>
+        <texPath>Things/Pawn/Humanlike/BodyAttachments/BionicWings/BionicWings</texPath>
+        <drawSize>1.2</drawSize>
+        <parentTagDef>Body</parentTagDef>
+        <drawData>
+          <defaultData>
+            <layer>-2</layer>
+          </defaultData>
+          <scaleOffsetByBodySize>true</scaleOffsetByBodySize>
+          <dataNorth><layer>90</layer></dataNorth>
+          <dataEast><layer>90</layer></dataEast>
+          <dataWest><layer>90</layer></dataWest>
+        </drawData>
+      </li>
+    </renderNodeProperties>
+  </HediffDef>
+</Defs>

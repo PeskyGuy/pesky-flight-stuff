@@ -1,0 +1,8 @@
+is_global = true
+build_property.RootNamespace = PeskyFlightStuff
+build_property.ProjectDir = f:\Coding\Mods\pesky_flight_stuff\Source\PeskyFlightStuff\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.CsWinRTUseWindowsUIXamlProjections = false
+build_property.EffectiveAnalysisLevelStyle = 
+build_property.EnableCodeStyleSeverity = 

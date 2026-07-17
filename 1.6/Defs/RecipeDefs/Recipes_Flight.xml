@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
+    <defName>InstallPesky_BionicWings</defName>
+    <label>install bionic wings</label>
+    <description>Install bionic wings.</description>
+    <descriptionHyperlinks>
+      <ThingDef>Pesky_BionicWings</ThingDef>
+      <HediffDef>Pesky_BionicWings</HediffDef>
+    </descriptionHyperlinks>
+    <jobString>Installing bionic wings.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Pesky_BionicWings</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Pesky_BionicWings</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Spine</li>
+      <li>Torso</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>Pesky_BionicWings</addsHediff>
+  </RecipeDef>
+</Defs>

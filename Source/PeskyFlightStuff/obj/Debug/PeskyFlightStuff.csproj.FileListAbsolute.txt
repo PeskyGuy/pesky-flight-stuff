@@ -1,0 +1,9 @@
+F:\Coding\Mods\pesky_flight_stuff\Source\PeskyFlightStuff\obj\Debug\PeskyFlightStuff.csproj.AssemblyReference.cache
+F:\Coding\Mods\pesky_flight_stuff\Source\PeskyFlightStuff\obj\Debug\PeskyFlightStuff.GeneratedMSBuildEditorConfig.editorconfig
+F:\Coding\Mods\pesky_flight_stuff\Source\PeskyFlightStuff\obj\Debug\PeskyFlightStuff.AssemblyInfoInputs.cache
+F:\Coding\Mods\pesky_flight_stuff\Source\PeskyFlightStuff\obj\Debug\PeskyFlightStuff.AssemblyInfo.cs
+F:\Coding\Mods\pesky_flight_stuff\Source\PeskyFlightStuff\obj\Debug\PeskyFlightStuff.csproj.CoreCompileInputs.cache
+F:\Coding\Mods\pesky_flight_stuff\1.6\Assemblies\PeskyFlightStuff.dll
+F:\Coding\Mods\pesky_flight_stuff\1.6\Assemblies\PeskyFlightStuff.pdb
+F:\Coding\Mods\pesky_flight_stuff\Source\PeskyFlightStuff\obj\Debug\PeskyFlightStuff.dll
+F:\Coding\Mods\pesky_flight_stuff\Source\PeskyFlightStuff\obj\Debug\PeskyFlightStuff.pdb

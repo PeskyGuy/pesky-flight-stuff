@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <ThingDef ParentName="ApparelMakeableBase">
+    <defName>Pesky_ThrusterBoots</defName>
+    <label>thruster boots</label>
+    <description>Heavy boots with built-in thrusters. They grant sustained flight but consume chemfuel while active.</description>
+    <graphicData>
+      <texPath>Things/Pawn/Humanlike/Apparel/ThrusterBoots/ThrusterBoots</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <tickerType>Normal</tickerType>
+    <generateAllowChance>0.05</generateAllowChance>
+    <generateCommonality>0.1</generateCommonality>
+    <statBases>
+      <WorkToMake>15000</WorkToMake>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Mass>3</Mass>
+      <ArmorRating_Sharp>0.40</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.10</ArmorRating_Blunt>
+      <EquipDelay>2</EquipDelay>
+    </statBases>
+    <thingCategories>
+      <li>ApparelUtility</li>
+    </thingCategories>
+    <apparel>
+      <bodyPartGroups>
+        <li>Feet</li>
+      </bodyPartGroups>
+      <layers>
+        <li>OnSkin</li>
+      </layers>
+      <tags>
+        <li>SpacerMilitary</li>
+      </tags>
+      <renderNodeProperties>
+        <li>
+          <workerClass>Pesky.PawnRenderNodeWorker_FlightAnimated</workerClass>
+          <nodeClass>Pesky.PawnRenderNode_FlightAnimated</nodeClass>
+          <texPath>Things/Pawn/Humanlike/Apparel/ThrusterBoots/ThrusterBoots</texPath>
+          <drawSize>1.3</drawSize>
+          <parentTagDef>ApparelBody</parentTagDef>
+          <drawData>
+            <defaultData>
+              <layer>0</layer>
+            </defaultData>
+            <dataNorth>
+              <layer>0</layer>
+            </dataNorth>
+            <dataEast>
+              <layer>0</layer>
+            </dataEast>
+            <dataWest>
+              <layer>0</layer>
+            </dataWest>
+          </drawData>
+        </li>
+      </renderNodeProperties>
+    </apparel>
+    <recipeMaker>
+      <researchPrerequisite>JumpPack</researchPrerequisite>
+      <recipeUsers>
+        <li>FabricationBench</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <Steel>40</Steel>
+      <Plasteel>20</Plasteel>
+      <ComponentSpacer>1</ComponentSpacer>
+      <Chemfuel>20</Chemfuel>
+    </costList>
+    <comps>
+      <li Class="Pesky.CompProperties_FlightApparel">
+        <maxFuel>100</maxFuel>
+        <fuelDrainPerTick>0.05</fuelDrainPerTick>
+        <fuelRechargePerTick>0.02</fuelRechargePerTick>
+      </li>
+      <li Class="CompProperties_ApparelReloadable">
+        <maxCharges>100</maxCharges>
+        <ammoDef>Chemfuel</ammoDef>
+        <ammoCountToRefill>20</ammoCountToRefill>
+        <baseReloadTicks>60</baseReloadTicks>
+        <soundReload>Standard_Reload</soundReload>
+        <hotKey>Misc4</hotKey>
+        <chargeNoun>fuel</chargeNoun>
+        <displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
+      </li>
+    </comps>
+    <modExtensions>
+      <li Class="Pesky.FlightSourceExtension">
+        <priority>200</priority>
+        <sourceType>Apparel</sourceType>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="BodyPartBionicBase">
+    <defName>Pesky_BionicWings</defName>
+    <label>bionic wings</label>
+    <description>Retractable bionic wings wired into the spine. Grants sustained flight.</description>
+    <descriptionHyperlinks>
+      <RecipeDef>InstallPesky_BionicWings</RecipeDef>
+    </descriptionHyperlinks>
+    <generateAllowChance>0.05</generateAllowChance>
+    <generateCommonality>0.1</generateCommonality>
+    <costList>
+      <Plasteel>20</Plasteel>
+      <ComponentSpacer>5</ComponentSpacer>
+    </costList>
+    <statBases>
+      <Mass>4</Mass>
+    </statBases>
+    <techHediffsTags>
+      <li>Advanced</li>
+    </techHediffsTags>
+  </ThingDef>
+</Defs>

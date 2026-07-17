@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <!-- Base Flight Gene -->
+  <GeneDef Name="PeskyFlightGeneBase" Abstract="True">
+    <displayCategory>Ability</displayCategory>
+    <biostatMet>-3</biostatMet>
+    <biostatCpx>2</biostatCpx>
+    <geneClass>Pesky.Gene_Flight</geneClass>
+    <modExtensions>
+      <li Class="Pesky.FlightSourceExtension">
+        <priority>100</priority>
+        <sourceType>Gene</sourceType>
+      </li>
+    </modExtensions>
+  </GeneDef>
+
+  <GeneDef ParentName="PeskyFlightGeneBase">
+    <defName>Pesky_WinglessFlight</defName>
+    <label>wingless flight</label>
+    <description>Carriers of this gene can hover in the air without physical wings, ignoring terrain movement penalties.</description>
+    <iconPath>UI/Icons/Genes/WinglessFlight</iconPath>
+  </GeneDef>
+
+  <GeneDef ParentName="PeskyFlightGeneBase">
+    <defName>Pesky_ShoulderWingsFeathered</defName>
+    <label>shoulder wings (feathered)</label>
+    <description>Carriers of this gene have large feathered wings on their shoulders.</description>
+    <iconPath>UI/Icons/Genes/WingsFeathered</iconPath>
+    <renderNodeProperties>
+      <li>
+        <workerClass>Pesky.PawnRenderNodeWorker_FlightAnimated</workerClass>
+        <nodeClass>Pesky.PawnRenderNode_FlightAnimated</nodeClass>
+        <texPath>Things/Pawn/Humanlike/BodyAttachments/WingsFeathered/WingsFeathered</texPath>
+        <drawSize>1.1</drawSize>
+        <parentTagDef>Body</parentTagDef>
+        <colorType>Hair</colorType>
+        <drawData>
+          <defaultData>
+            <layer>-2</layer>
+          </defaultData>
+          <dataNorth>
+            <layer>90</layer>
+          </dataNorth>
+          <dataEast>
+            <layer>90</layer>
+          </dataEast>
+          <dataWest>
+            <layer>90</layer>
+          </dataWest>
+        </drawData>
+      </li>
+    </renderNodeProperties>
+  </GeneDef>
+
+  <GeneDef ParentName="PeskyFlightGeneBase">
+    <defName>Pesky_ShoulderWingsDraconic</defName>
+    <label>shoulder wings (draconic)</label>
+    <description>Carriers of this gene have large leathery wings on their shoulders.</description>
+    <iconPath>UI/Icons/Genes/WingsDraconic</iconPath>
+    <renderNodeProperties>
+      <li>
+        <workerClass>Pesky.PawnRenderNodeWorker_FlightAnimated</workerClass>
+        <nodeClass>Pesky.PawnRenderNode_FlightAnimated</nodeClass>
+        <texPath>Things/Pawn/Humanlike/BodyAttachments/WingsDraconic/WingsDraconic</texPath>
+        <drawSize>1.1</drawSize>
+        <parentTagDef>Body</parentTagDef>
+        <colorType>Skin</colorType>
+        <drawData>
+          <defaultData>
+            <layer>-2</layer>
+          </defaultData>
+          <dataNorth>
+            <layer>90</layer>
+          </dataNorth>
+          <dataEast>
+            <layer>90</layer>
+          </dataEast>
+          <dataWest>
+            <layer>90</layer>
+          </dataWest>
+        </drawData>
+      </li>
+    </renderNodeProperties>
+  </GeneDef>
+
+  <GeneDef ParentName="PeskyFlightGeneBase">
+    <defName>Pesky_WaistWingsFeathered</defName>
+    <label>waist wings (feathered)</label>
+    <description>Carriers of this gene have feathered wings on their waist.</description>
+    <iconPath>UI/Icons/Genes/WingsFeathered</iconPath>
+    <renderNodeProperties>
+      <li>
+        <workerClass>Pesky.PawnRenderNodeWorker_FlightAnimated</workerClass>
+        <nodeClass>Pesky.PawnRenderNode_FlightAnimated</nodeClass>
+        <texPath>Things/Pawn/Humanlike/BodyAttachments/WingsFeathered/WingsFeathered</texPath>
+        <drawSize>0.9</drawSize>
+        <parentTagDef>Body</parentTagDef>
+        <colorType>Hair</colorType>
+        <drawData>
+          <defaultData>
+            <layer>-2</layer>
+            <offset>(0, 0, -0.35)</offset>
+          </defaultData>
+          <dataNorth>
+            <layer>90</layer>
+            <offset>(0, 0, -0.35)</offset>
+          </dataNorth>
+          <dataEast>
+            <layer>90</layer>
+            <offset>(0, 0, -0.35)</offset>
+          </dataEast>
+          <dataWest>
+            <layer>90</layer>
+            <offset>(0, 0, -0.35)</offset>
+          </dataWest>
+        </drawData>
+      </li>
+    </renderNodeProperties>
+  </GeneDef>
+
+  <GeneDef ParentName="PeskyFlightGeneBase">
+    <defName>Pesky_WaistWingsDraconic</defName>
+    <label>waist wings (draconic)</label>
+    <description>Carriers of this gene have leathery wings on their waist.</description>
+    <iconPath>UI/Icons/Genes/WingsDraconic</iconPath>
+    <renderNodeProperties>
+      <li>
+        <workerClass>Pesky.PawnRenderNodeWorker_FlightAnimated</workerClass>
+        <nodeClass>Pesky.PawnRenderNode_FlightAnimated</nodeClass>
+        <texPath>Things/Pawn/Humanlike/BodyAttachments/WingsDraconic/WingsDraconic</texPath>
+        <drawSize>0.9</drawSize>
+        <parentTagDef>Body</parentTagDef>
+        <colorType>Skin</colorType>
+        <drawData>
+          <defaultData>
+            <layer>-2</layer>
+            <offset>(0, 0, -0.35)</offset>
+          </defaultData>
+          <dataNorth>
+            <layer>90</layer>
+            <offset>(0, 0, -0.35)</offset>
+          </dataNorth>
+          <dataEast>
+            <layer>90</layer>
+            <offset>(0, 0, -0.35)</offset>
+          </dataEast>
+          <dataWest>
+            <layer>90</layer>
+            <offset>(0, 0, -0.35)</offset>
+          </dataWest>
+        </drawData>
+      </li>
+    </renderNodeProperties>
+  </GeneDef>
+</Defs>
