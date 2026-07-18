@@ -7,13 +7,20 @@ namespace Pesky
 {
     public class FlightSourceRegistry
     {
+        public Pawn pawn;
         public List<IFlightSource> sources = new List<IFlightSource>();
+
+        public FlightSourceRegistry(Pawn pawn)
+        {
+            this.pawn = pawn;
+        }
 
         public void Register(IFlightSource source)
         {
             if (!sources.Contains(source))
             {
                 sources.Add(source);
+                if (pawn != null) FlightUtility.CheckFlightState(pawn);
             }
         }
 
@@ -42,7 +49,19 @@ namespace Pesky
 
         public void Unregister(IFlightSource source)
         {
-            sources.Remove(source);
+            bool wasFlying = pawn != null && FlightUtility.IsFlying(pawn);
+            if (sources.Remove(source) && pawn != null)
+            {
+                if (wasFlying)
+                {
+                    var nextBest = sources.Where(s => s.CanFly).OrderByDescending(s => s.Priority).FirstOrDefault();
+                    if (nextBest != null)
+                    {
+                        nextBest.IsActive = true;
+                    }
+                }
+                FlightUtility.CheckFlightState(pawn);
+            }
         }
 
         public bool IsSuppressed(IFlightSource source)

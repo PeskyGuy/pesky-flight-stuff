@@ -13,7 +13,7 @@ By convention:
 * Apparel: Priority 200
 * Implants: Priority 300
 
-Higher priority sources suppress lower ones. If you turn on your thruster boots, your biological wings stop flapping and you use the boots' animation instead.
+Higher priority sources suppress lower ones. If you turn on your thruster boots, your biological wings stop flapping and you use the boots' animation instead. If you lose or unequip an active flight source, the framework falls back to your next available flight source automatically. You won't just drop out of the sky if your jetpack breaks while you have functional biological wings.
 
 ## Adding a Flight Gene
 
@@ -118,7 +118,7 @@ For the flying animation, create a subfolder called `Animation` right next to th
 * `Wings_Down.png`
 * `Wings_Mid2.png`
 
-The framework automatically cycles through these frames while the pawn is in the air. 
+The framework automatically cycles through these frames while the pawn is in the air. For rendering order, North, East, and West facing flight textures render in front of the pawn. South facing textures render behind them.
 
 ### Fine-Tuning the Feel
 

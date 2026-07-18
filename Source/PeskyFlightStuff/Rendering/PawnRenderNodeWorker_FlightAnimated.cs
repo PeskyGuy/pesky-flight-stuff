@@ -12,8 +12,16 @@ namespace Pesky
                 return false;
 
             // Only draw if the pawn has the appropriate item or gene.
-            // But since this node is attached via Gene or Apparel, it's only active if they have it.
             return true;
+        }
+
+        public override float LayerFor(PawnRenderNode node, PawnDrawParms parms)
+        {
+            if (parms.facing == Rot4.North)
+                return 90f;
+            if (parms.facing == Rot4.East || parms.facing == Rot4.West)
+                return 90f;
+            return base.LayerFor(node, parms);
         }
     }
 }

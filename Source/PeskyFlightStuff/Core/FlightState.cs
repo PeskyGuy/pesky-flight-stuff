@@ -89,7 +89,7 @@ namespace Pesky
         {
             if (!registries.TryGetValue(pawn, out var registry))
             {
-                registry = new FlightSourceRegistry();
+                registry = new FlightSourceRegistry(pawn);
                 registries.Add(pawn, registry);
                 registry.RegisterExternalGenes(pawn);
             }

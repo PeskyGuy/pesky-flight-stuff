@@ -34,6 +34,7 @@
       <li Class="Pesky.FlightSourceExtension">
         <priority>300</priority>
         <sourceType>Implant</sourceType>
+        <iconPath>Things/Pawn/Humanlike/BodyAttachments/BionicWings/BionicWings_south</iconPath>
       </li>
     </modExtensions>
     <stages>
